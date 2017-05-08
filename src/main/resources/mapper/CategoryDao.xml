@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sma.backend.dao.CategoryDao">
+
+  <insert id="add"
+        parameterType="com.sma.backend.json.JCategory"
+        useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO category (
+        name, 
+        description,
+        type, 
+        parentId, 
+        logoUrl)
+        VALUES (
+         #{name}, 
+         #{description}, 
+         #{type}, 
+         #{parentId},  
+         #{logoUrl})
+    </insert>
+
+   <update id="update"
+        parameterType="com.sma.backend.json.JCategory">
+        UPDATE category
+        SET 
+           name = #{name}, 
+           description = #{description}, 
+           type = #{type}, 
+            parentId = #{parentId},
+             logoUrl = #{logoUrl}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="remove" parameterType="long">
+        DELETE FROM category
+        WHERE id = #{id}
+    </delete>
+
+    <select id="findById" parameterType="long"
+        resultType="com.sma.backend.json.JCategory">
+        SELECT *
+        FROM category
+        WHERE id = #{id}
+    </select>
+  
+  <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in mybatis-config.xml and use Alias names. -->
+    <resultMap type='com.sma.backend.json.JCategory' id='CategoryResult'>
+      <id property='id' column='id'/>
+      <result property='name' column='name'/>
+    <result property='version' column='version'/>
+    <result property='createdDate' column='createdDate'/>
+    <result property='updatedDate' column='updatedDate'/>    
+   </resultMap> 
+
+   <select id='getAll' parameterType="map" resultMap='CategoryResult'>
+        SELECT *
+        FROM category
+    </select>
+    
+    <select id="getPage" parameterType="map" resultMap="CategoryResult">
+        SELECT *
+        FROM category
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*) 
+        FROM category 
+    </select>
+</mapper>
