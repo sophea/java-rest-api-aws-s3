@@ -52,3 +52,24 @@ Upload image with Amazon S3 and using Cloudfront Service
  
  - AmazonS3Manager 
 
+AWS console 
+```
+We need to grant appropriate permissions on the bucket to the AIM user so that backend is able to do operations such as put, get and delete objects or images on the bucket.
+To grant the permissions, we need to add bucket policy and below is the bucket policy we add for Test environment.
+Note that we should use AWS Policy Generator to generate the policy configuration below to avoid syntax error.
+{
+ "Version": "2008-10-17",
+ "Id": "Policy1418211126005",
+ "Statement": [
+ {
+ "Sid": "Stmt1418211122222",
+ "Effect": "Allow",
+ "Principal": {
+ "AWS": "arn:aws:iam::615371640498:user/backend-dev-test"
+ },
+ "Action": "s3:*",
+ "Resource": "arn:aws:s3:::backend-test-ap-southeast-1/*"
+ }
+ ]
+}
+```
